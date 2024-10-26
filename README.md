@@ -28,7 +28,7 @@ Este proyecto es una API que permite verificar si una persona es mutante a parti
 Para ejecutar las pruebas:
 
 ```bash
-gradle test
+gradlew test
 
 ````
 
