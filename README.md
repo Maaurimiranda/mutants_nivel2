@@ -19,12 +19,20 @@ Este proyecto es una API que permite verificar si una persona es mutante a parti
 - Render (para hospedaje de la API)
 - JUnit 5 y Mockito (para pruebas unitarias)
 - JPQL (para consultas en la base de datos)
+- POSTMAN (para realizar peticiones HTTP)
 
 ## Estructura del Proyecto
 - entities: Definición de las entidades del modelo de datos.
 - services: Lógica de negocio, incluye el servicio de verificación de ADN (RegistroADNService).
 - controllers: Controladores de los endpoints /mutant y /stats.
 - repositories: Repositorios de datos con consultas JPQL para la persistencia
+
+## Ejecucion del Proyecto 
+- La url principal conectada a Render es:
+-- https://mutans-nivel3-2.onrender.com
+- En la aplicacion Postman se van a poder realizar las 2 siguientes peticiones
+  -- POST - https://mutans-nivel3-2.onrender.com/mutant
+  -- GET - https://mutans-nivel3-2.onrender.com/stats
 
 ## Ejecución de Pruebas
 Para ejecutar las pruebas:
