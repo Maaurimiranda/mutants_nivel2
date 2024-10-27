@@ -12,6 +12,8 @@ Este proyecto es una API que permite verificar si una persona es mutante a parti
 - Java 17
 - Spring Boot (para REST API)
 - H2 (para Base de Datos)
+  -- Esta base de datos se levanta en memoria con la siguiente URL [jdbc:h2:mem:testdb](http://localhost:8080/h2-console)
+  -- Esta en modo servidor
 - JPA + Hibernate (para la persistencia de datos)
 - Docker (para despliegue y contenedorización)
 - Render (para hospedaje de la API)
