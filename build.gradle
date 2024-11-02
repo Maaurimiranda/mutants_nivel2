@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'jacoco' // Mueve el plugin de Jacoco aquí
 }
 
 group = 'com.example'
@@ -29,42 +30,42 @@ ext {
 }
 
 dependencies {
-	//Spring Boot
+	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
-	//Lombok
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//Spring Tools
+	// Spring Tools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	//DATA BASE H2
+	// Base de datos H2
 	runtimeOnly 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	//hibernate
+	// Hibernate
 	implementation 'org.hibernate:hibernate-envers:6.5.3.Final'
 
-	//MAPSTRUCT
+	// MapStruct
 	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
 
-	//OPEN API
+	// Open API
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
 
-    // JUnit 5
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+	// JUnit 5
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 
-    // Mockito
-    testImplementation 'org.mockito:mockito-core:5.5.0'
+	// Mockito
+	testImplementation 'org.mockito:mockito-core:5.5.0'
 
-    // Mockito para integración con JUnit 5
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+	// Mockito para integración con JUnit 5
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
 }
 
 tasks.named('test') {
@@ -76,6 +77,15 @@ tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
 }
+
 bootJar {
 	enabled = true
+}
+
+jacocoTestReport {
+	reports {
+		xml.required.set(true) // Generar informe XML
+		csv.required.set(false) // No generar informe CSV
+		html.outputLocation.set(file("${buildDir}/jacocoHtml")) // Generar informe HTML
+	}
 }

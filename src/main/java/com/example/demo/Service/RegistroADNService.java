@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,7 @@ public class RegistroADNService {
         boolean esMutante = checkMutant(adn);
 
         // Guardar el resultado en la base de datos
+
         registroADNRepositorio.save(new RegistroADN(String.join(",", adn), esMutante));
 
         // Actualizar las estadisticas

@@ -5,13 +5,13 @@ import com.example.demo.Repository.EstadisticasRepository;
 import com.example.demo.Repository.RegistroADNRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.mockito.Mockito.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RegistroADNServiceTest {
@@ -27,14 +27,13 @@ class RegistroADNServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Inicializa los mocks
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testIsMutant_whenAdnIsMutant() {
-        // ADN mutante de ejemplo
         String[] adnMutante = {
-                "ATGCGA",
+                "AAAAAA",
                 "CAGTGC",
                 "TTATGT",
                 "AGAAGG",
@@ -42,19 +41,54 @@ class RegistroADNServiceTest {
                 "TCACTG"
         };
 
-        // Ejecutar el método
         boolean esMutante = registroADNService.isMutant(adnMutante);
 
-        // Verificar que el ADN fue registrado en la base de datos
-        verify(registroADNRepositorio, times(1)).save(any(RegistroADN.class));
+        ArgumentCaptor<RegistroADN> captor = ArgumentCaptor.forClass(RegistroADN.class);
+        verify(registroADNRepositorio, times(1)).save(captor.capture());
 
-        // Verificar el resultado
+        // Verifica el ADN guardado
+        String adnGuardado = String.join(",", adnMutante);
+        assertEquals(adnGuardado, captor.getValue().getAdn());
+        assertTrue(esMutante, "La secuencia de ADN debería ser mutante");
+    }
+
+
+    @Test
+    void testIsMutant_whenAdnIsMutant_verticalPattern() {
+        String[] adnMutante = {
+                "ATGCGA",
+                "ATGTGC",
+                "ATATGT",
+                "AGAAGG",
+                "CCCCTA",
+                "TCACTG"
+        };
+
+        boolean esMutante = registroADNService.isMutant(adnMutante);
+
+        verify(registroADNRepositorio, times(1)).save(any(RegistroADN.class));
+        assertTrue(esMutante, "La secuencia de ADN debería ser mutante");
+    }
+
+    @Test
+    void testIsMutant_whenAdnIsMutant_diagonalPattern() {
+        String[] adnMutante = {
+                "ATGCGA",
+                "CAGTGC",
+                "TTATGT",
+                "AGAAGG",
+                "CCGCTA",
+                "TCACTG"
+        };
+
+        boolean esMutante = registroADNService.isMutant(adnMutante);
+
+        verify(registroADNRepositorio, times(1)).save(any(RegistroADN.class));
         assertTrue(esMutante, "La secuencia de ADN debería ser mutante");
     }
 
     @Test
     void testIsMutant_whenAdnIsNotMutant() {
-        // ADN no mutante de ejemplo
         String[] adnNoMutante = {
                 "ATGCGA",
                 "CAGTGC",
@@ -64,31 +98,41 @@ class RegistroADNServiceTest {
                 "TCACTG"
         };
 
-        // Ejecutar el método
         boolean esMutante = registroADNService.isMutant(adnNoMutante);
 
-        // Verificar que el ADN fue registrado en la base de datos
         verify(registroADNRepositorio, times(1)).save(any(RegistroADN.class));
-
-        // Verificar el resultado
         assertFalse(esMutante, "La secuencia de ADN no debería ser mutante");
     }
 
     @Test
     void testIsMutant_whenAdnInvalid() {
-        // ADN inválido
         String[] adnInvalido = {
                 "ATGC",
                 "CAGT",
                 "TTAT",
-                "AGA" // Esta fila no tiene la misma longitud
+                "AGA"
         };
 
-        // Verificar que lanza la excepción correcta
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             registroADNService.isMutant(adnInvalido);
         });
 
         assertEquals("403 FORBIDDEN \"La matriz de ADN debe ser cuadrada\"", exception.getMessage());
+    }
+
+    @Test
+    void testSaveErrorHandling() {
+        String[] adnMutante = {
+                "ATGCGA",
+                "CAGTGC",
+                "TTATGT",
+                "AGAAGG",
+                "CCCCTA",
+                "TCACTG"
+        };
+
+        doThrow(new RuntimeException("Error al guardar")).when(registroADNRepositorio).save(any(RegistroADN.class));
+
+        assertThrows(RuntimeException.class, () -> registroADNService.isMutant(adnMutante), "Debería lanzar una excepción de error al guardar");
     }
 }

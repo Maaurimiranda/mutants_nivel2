@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class RegistroADN extends Base{
 
     @Column(length = 1000, nullable = false)
-    private String adn;
+    private String adn;  // Cambia a String[]
 
     @Column(nullable = false)
     private boolean isMutant;
@@ -30,6 +30,7 @@ public class RegistroADN extends Base{
     public RegistroADN(String adn, boolean isMutant) {
         this.adn = adn;
         this.isMutant = isMutant;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now(); // Esto establece el timestamp automáticamente
     }
+
 }
