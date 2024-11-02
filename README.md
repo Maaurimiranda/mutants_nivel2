@@ -37,10 +37,13 @@ Este proyecto es una API que permite verificar si una persona es mutante a parti
 ## Ejecución de Pruebas
 Para ejecutar las pruebas:
 
-```bash
-gradlew test
+Para limpiar y construir el proyecto:
 
-````
+```./gradlew clean build```
+
+Generar un informe de cobertura de código utilizando JaCoCoÑ
+
+```./gradlew test jacocoTestReport```
 
 ##Diagramas de la Arquitecuta
-Estaran detalladas en el archivo "Arquitectura"
+Estaran detalladas en la propia entrega en el Campus.
