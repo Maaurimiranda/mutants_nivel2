@@ -1,11 +1,9 @@
 # Mutant Detector API
-Este proyecto es una API que permite verificar si una persona es mutante a partir de su secuencia de ADN. La aplicación identifica patrones de ADN específicos y proporciona estadísticas de análisis de ADN mutante y no mutante.
+Este proyecto es una API que permite verificar si una persona es mutante a partir de su secuencia de ADN. La aplicación identifica patrones de ADN específicos.
 
 ## Características
 - Detección de ADN Mutante: Identifica si una persona es mutante según su secuencia de ADN.
-- Estadísticas de Verificaciones: Proporciona estadísticas de mutantes y no mutantes.
 - Almacenamiento en Base de Datos: Guarda las secuencias de ADN analizadas en la tabla RegistroADN.
-- Pruebas Automáticas: Cobertura de pruebas superior al 80% usando JUnit 5 y Mockito.
 - Escalabilidad: Diseñado para soportar tráfico de consultas intensivo.
 
 ## Tecnologías Utilizadas
@@ -24,26 +22,13 @@ Este proyecto es una API que permite verificar si una persona es mutante a parti
 ## Estructura del Proyecto
 - entities: Definición de las entidades del modelo de datos.
 - services: Lógica de negocio, incluye el servicio de verificación de ADN (RegistroADNService).
-- controllers: Controladores de los endpoints /mutant y /stats.
+- controllers: Controladores de el endpoint /mutant.
 - repositories: Repositorios de datos con consultas JPQL para la persistencia
 
 ## Ejecucion del Proyecto 
 - La url principal conectada a Render es:
--- https://mutans-nivel3-2.onrender.com
-- En la aplicacion Postman se van a poder realizar las 2 siguientes peticiones
-  -- POST - https://mutans-nivel3-2.onrender.com/mutant
-  -- GET - https://mutans-nivel3-2.onrender.com/stats
+-- https://mutants-nivel2-1.onrender.com
+- En la aplicacion Postman se van a poder realizar l siguiente peticion
+  -- POST - https://mutants-nivel2-1.onrender.com/mutant
 
-## Ejecución de Pruebas
-Para ejecutar las pruebas:
 
-Para limpiar y construir el proyecto:
-
-```./gradlew clean build```
-
-Generar un informe de cobertura de código utilizando JaCoCoÑ
-
-```./gradlew test jacocoTestReport```
-
-##Diagramas de la Arquitecuta
-Estaran detalladas en la propia entrega en el Campus.
