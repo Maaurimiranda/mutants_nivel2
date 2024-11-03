@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Service.EstadisticasService;
 import com.example.demo.Service.RegistroADNService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,6 @@ public class MutantController {
     @Autowired
     private RegistroADNService registroADNService;
 
-    @Autowired
-    private EstadisticasService estadisticasService;
 
     // Metodo para verificar si el ADN ingresado pertenece a un mutante
     @PostMapping("")

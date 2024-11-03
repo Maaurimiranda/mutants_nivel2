@@ -1,8 +1,6 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entities.Estadisticas;
 import com.example.demo.Entities.RegistroADN;
-import com.example.demo.Repository.EstadisticasRepository;
 import com.example.demo.Repository.RegistroADNRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -17,16 +15,12 @@ import java.util.Optional;
 public class RegistroADNService {
     private static final int SEQUENCE_LENGTH = 4;
 
-    public RegistroADNService(EstadisticasRepository estadisticasRepositorio, RegistroADNRepository registroADNRepositorio) {
-        this.estadisticasRepositorio = estadisticasRepositorio;
+    public RegistroADNService(RegistroADNRepository registroADNRepositorio) {
         this.registroADNRepositorio = registroADNRepositorio;
     }
 
     @Autowired
     private RegistroADNRepository registroADNRepositorio;
-
-    @Autowired
-    private EstadisticasRepository estadisticasRepositorio;
 
     @Transactional
     public boolean isMutant(String[] adn) {
@@ -39,9 +33,6 @@ public class RegistroADNService {
         // Guardar el resultado en la base de datos
 
         registroADNRepositorio.save(new RegistroADN(String.join(",", adn), esMutante));
-
-        // Actualizar las estadisticas
-        updateStatistics(esMutante);
 
         return esMutante;
     }
@@ -183,24 +174,5 @@ public class RegistroADNService {
         }
 
         return false;
-    }
-
-    private void updateStatistics(boolean esMutante) {
-        Optional<Estadisticas> estadisticasOpt = estadisticasRepositorio.findById(1L);
-        Estadisticas estadisticas;
-
-        if (estadisticasOpt.isPresent()) {
-            estadisticas = estadisticasOpt.get();
-        } else {
-            estadisticas = new Estadisticas(0L, 0L, 0.0);
-        }
-
-        if (esMutante) {
-            estadisticas.incrementMutants();
-        } else {
-            estadisticas.incrementNonMutants();
-        }
-
-        estadisticasRepositorio.save(estadisticas);
     }
 }
